@@ -16,6 +16,21 @@ const (
 	image_settings_file = "assets/images/settings.png"
 )
 
+var (
+        assets  map[string]string
+)
+
+func init() {
+        assets = make(map[string]string, 0)
+        assets["profile"] = "assets/images/profile_image.png"
+        assets["stream"] = "assets/images/home.png"
+        assets["mentions"] = "assets/images/mentions.png"
+        assets["interactions"] = "assets/images/interactions.png"
+        assets["stars"] = "assets/images/stars.png"
+        assets["messages"] = "assets/images/messages.png"
+        assets["settings"] = "assets/images/settings.png"
+}
+
 func mainWindow() {
 	gtk.Init(&os.Args)
 
@@ -29,13 +44,13 @@ func mainWindow() {
 	})
 
 	// images
-	image_profile := gtk.NewImageFromFile(image_profile_file)
-	image_stream := gtk.NewImageFromFile(image_stream_file)
-	image_mentions := gtk.NewImageFromFile(image_mentions_file)
-	image_interactions := gtk.NewImageFromFile(image_interactions_file)
-	image_stars := gtk.NewImageFromFile(image_stars_file)
-	image_messages := gtk.NewImageFromFile(image_messages_file)
-	image_settings := gtk.NewImageFromFile(image_settings_file)
+	image_profile := loadImageAsset("profile")
+	image_stream := loadImageAsset("stream")
+	image_mentions := loadImageAsset("mentions")
+	image_interactions := loadImageAsset("interactions")
+	image_stars := loadImageAsset("stars")
+	image_messages := loadImageAsset("messages")
+	image_settings := loadImageAsset("settings")
 
 	// containers 
 	container_main := gtk.NewHBox(false, 1)
@@ -136,6 +151,11 @@ func mainWindow() {
 	window.ShowAll()
 
 	gtk.Main()
+}
+
+func loadImageAsset(assetName string) gtk.IWidget {
+        assetFile := assets[assetName]
+        return gtk.NewImageFromFile(assetFile)
 }
 
 func main() {
