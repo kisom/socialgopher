@@ -161,8 +161,21 @@ func SelectProfile(user string) (p *Profile) {
 	return
 }
 
+// AppDirectory checks for the presence of ~/.socialgopher, and creates it
+// if it doesn't exist.
+func checkAppDirectory() {
+	_, err := os.Stat(homeDir)
+	if err != nil && os.IsNotExist(err) {
+		err = os.Mkdir(homeDir, 0700)
+	}
+	if err != nil {
+		panic(err.Error())
+	}
+}
+
 func init() {
 	var err error
+	checkAppDirectory()
 	Profiles, err = LoadProfiles()
 	if err != nil {
 		fmt.Println("[!] couldn't load profiles:", err.Error())

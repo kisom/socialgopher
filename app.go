@@ -20,20 +20,7 @@ var (
         assets  map[string]string
 )
 
-// AppDirectory checks for the presence of ~/.socialgopher, and creates it
-// if it doesn't exist.
-func checkAppDirectory() {
-	_, err := os.Stat(homeDir)
-	if err != nil && os.IsNotExist(err) {
-		err = os.Mkdir(homeDir, 0700)
-	}
-	if err != nil {
-		panic(err.Error())
-	}
-}
-
 func init() {
-	checkAppDirectory()
         assets = make(map[string]string, 0)
         assets["profile"] = "assets/images/profile_image.png"
         assets["stream"] = "assets/images/home.png"
