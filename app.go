@@ -31,14 +31,71 @@ func init() {
         assets["settings"] = "assets/images/settings.png"
 }
 
+func accountWindow() {
+	// window settings
+	window_account := gtk.NewWindow(gtk.WINDOW_TOPLEVEL)
+	window_account.SetPosition(gtk.WIN_POS_CENTER)
+	window_account.SetTitle("Add Account")
+
+	// main container 
+	container_main := gtk.NewVBox(false, 10)
+	container_user := gtk.NewHBox(false, 0) 
+	container_pass := gtk.NewHBox(false, 0)
+	container_buttons := gtk.NewHBox(false, 5)
+	container_main.SetBorderWidth(10)
+
+	// username
+	user_label := gtk.NewLabel("Username")
+	user_entry := gtk.NewEntry()
+
+	// password
+	pass_label := gtk.NewLabel("Password")
+	pass_entry := gtk.NewEntry()
+	pass_entry.SetVisibility(false)
+
+	// login and cancel buttons
+	button_login := gtk.NewButtonWithLabel("Add")
+	button_cancel := gtk.NewButtonWithLabel("Cancel")
+
+	// login
+	button_login.Clicked(func() {
+		// validation holder
+		if (user_entry.GetText() == "user" && pass_entry.GetText() == "pass") {
+			println("[*] Login successful")
+			window_account.Destroy()
+		}
+	})
+
+	// cancel
+	button_cancel.Clicked(func() {
+		window_account.Destroy()
+	})
+
+	// add elements to containers
+	container_buttons.Add(button_login)
+	container_buttons.Add(button_cancel)
+	container_user.PackStart(user_label, false, false, 20)
+	container_user.PackEnd(user_entry, true, true, 1)
+	container_pass.PackStart(pass_label, false, false, 20)
+	container_pass.PackEnd(pass_entry, true, true, 1)
+	container_main.PackStart(container_user, false, false, 1)
+	container_main.PackStart(container_pass,  false, false, 1)
+	container_main.PackStart(container_buttons,  false, false, 1)
+
+	window_account.Add(container_main)
+	window_account.SetSizeRequest(350,150)
+	window_account.SetResizable(false)
+	window_account.ShowAll()
+}
+
 func mainWindow() {
 	gtk.Init(&os.Args)
 
 	// window settings
-	window := gtk.NewWindow(gtk.WINDOW_TOPLEVEL)
-	window.SetPosition(gtk.WIN_POS_CENTER)
-	window.SetTitle("Social Gopher")
-	window.Connect("destroy", func() {
+	window_main := gtk.NewWindow(gtk.WINDOW_TOPLEVEL)
+	window_main.SetPosition(gtk.WIN_POS_CENTER)
+	window_main.SetTitle("Social Gopher")
+	window_main.Connect("destroy", func() {
 		println("[!] Quit application")
 		gtk.MainQuit()
 	})
@@ -55,7 +112,7 @@ func mainWindow() {
 	// containers 
 	container_main := gtk.NewHBox(false, 1)
 	container_left := gtk.NewVBox(false, 1)
-	container_right := gtk.NewVBox(false, 10)
+	container_right := gtk.NewVBox(false, 5)
 	container_compose := gtk.NewHBox(false, 5)
 	container_profile := gtk.NewHBox(false, 5)
 	container_profile.Add(image_profile)
@@ -130,7 +187,7 @@ func mainWindow() {
 		list_buffer.SetText("Messages")
 	})
 	button_settings.OnClicked(func() {
-		list_buffer.SetText("Settings")
+		accountWindow()
 	})
 	button_post.Clicked(func() {
 		compose_buffer.SetText("")
@@ -146,9 +203,9 @@ func mainWindow() {
 	container_main.PackStart(container_left, false, true, 1)
 	container_main.PackEnd(container_right, true, true, 1)
 
-	window.Add(container_main)
-	window.SetSizeRequest(500, 600)
-	window.ShowAll()
+	window_main.Add(container_main)
+	window_main.SetSizeRequest(500, 600)
+	window_main.ShowAll()
 
 	gtk.Main()
 }
