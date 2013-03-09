@@ -7,28 +7,28 @@ import (
 )
 
 const (
-	image_profile_file = "assets/images/profile_image.png"
-	image_stream_file = "assets/images/home.png"
-	image_mentions_file = "assets/images/mentions.png"
+	image_profile_file      = "assets/images/profile_image.png"
+	image_stream_file       = "assets/images/home.png"
+	image_mentions_file     = "assets/images/mentions.png"
 	image_interactions_file = "assets/images/interactions.png"
-	image_stars_file = "assets/images/stars.png"
-	image_messages_file = "assets/images/messages.png"
-	image_settings_file = "assets/images/settings.png"
+	image_stars_file        = "assets/images/stars.png"
+	image_messages_file     = "assets/images/messages.png"
+	image_settings_file     = "assets/images/settings.png"
 )
 
 var (
-        assets  map[string]string
+	assets map[string]string
 )
 
 func init() {
-        assets = make(map[string]string, 0)
-        assets["profile"] = "assets/images/profile_image.png"
-        assets["stream"] = "assets/images/home.png"
-        assets["mentions"] = "assets/images/mentions.png"
-        assets["interactions"] = "assets/images/interactions.png"
-        assets["stars"] = "assets/images/stars.png"
-        assets["messages"] = "assets/images/messages.png"
-        assets["settings"] = "assets/images/settings.png"
+	assets = make(map[string]string, 0)
+	assets["profile"] = "assets/images/profile_image.png"
+	assets["stream"] = "assets/images/home.png"
+	assets["mentions"] = "assets/images/mentions.png"
+	assets["interactions"] = "assets/images/interactions.png"
+	assets["stars"] = "assets/images/stars.png"
+	assets["messages"] = "assets/images/messages.png"
+	assets["settings"] = "assets/images/settings.png"
 }
 
 func accountWindow() {
@@ -37,9 +37,9 @@ func accountWindow() {
 	window_account.SetPosition(gtk.WIN_POS_CENTER)
 	window_account.SetTitle("Add Account")
 
-	// main container 
+	// main container
 	container_main := gtk.NewVBox(false, 10)
-	container_user := gtk.NewHBox(false, 0) 
+	container_user := gtk.NewHBox(false, 0)
 	container_pass := gtk.NewHBox(false, 0)
 	container_buttons := gtk.NewHBox(false, 5)
 	container_main.SetBorderWidth(10)
@@ -60,7 +60,7 @@ func accountWindow() {
 	// login
 	button_login.Clicked(func() {
 		// validation holder
-		if (user_entry.GetText() == "user" && pass_entry.GetText() == "pass") {
+		if user_entry.GetText() == "user" && pass_entry.GetText() == "pass" {
 			println("[*] Login successful")
 			window_account.Destroy()
 		}
@@ -79,11 +79,11 @@ func accountWindow() {
 	container_pass.PackStart(pass_label, false, false, 20)
 	container_pass.PackEnd(pass_entry, true, true, 1)
 	container_main.PackStart(container_user, false, false, 1)
-	container_main.PackStart(container_pass,  false, false, 1)
-	container_main.PackStart(container_buttons,  false, false, 1)
+	container_main.PackStart(container_pass, false, false, 1)
+	container_main.PackStart(container_buttons, false, false, 1)
 
 	window_account.Add(container_main)
-	window_account.SetSizeRequest(350,150)
+	window_account.SetSizeRequest(350, 150)
 	window_account.SetResizable(false)
 	window_account.ShowAll()
 }
@@ -109,7 +109,7 @@ func mainWindow() {
 	image_messages := loadImageAsset("messages")
 	image_settings := loadImageAsset("settings")
 
-	// containers 
+	// containers
 	container_main := gtk.NewHBox(false, 1)
 	container_left := gtk.NewVBox(false, 1)
 	container_right := gtk.NewVBox(false, 5)
@@ -211,8 +211,8 @@ func mainWindow() {
 }
 
 func loadImageAsset(assetName string) gtk.IWidget {
-        assetFile := assets[assetName]
-        return gtk.NewImageFromFile(assetFile)
+	assetFile := assets[assetName]
+	return gtk.NewImageFromFile(assetFile)
 }
 
 func main() {
