@@ -75,8 +75,9 @@ func (p *Profile) Store() (err error) {
 	}
 	defer db.Close()
 
-	_, err = db.Exec(`delete from sg_profile where user=?`, p.Identity.User)
-	query := `insert into sg_profile values (?, ?)`
+	_, err = db.Exec(`delete from sg_profiles where user=?`,
+		p.Identity.User)
+	query := `insert into sg_profiles values (?, ?)`
 	_, err = db.Exec(query, p.Identity.User, p.Identity.Secret())
 	return
 
@@ -90,7 +91,7 @@ func LoadProfile(user string) (p *Profile, err error) {
 		return
 	}
 	defer db.Close()
-	row := db.QueryRow(`select secret from sg_profile where user=?`, user)
+	row := db.QueryRow(`select secret from sg_profiles where user=?`, user)
 
 	var secret string
 	err = row.Scan(&secret)
@@ -113,7 +114,7 @@ func getUsersInDB() (users []string, err error) {
 	}
 	defer db.Close()
 
-	query := `select user from sg_profile`
+	query := `select user from sg_profiles`
 	rows, err := db.Query(query)
 	if err != nil {
 		return
@@ -173,9 +174,41 @@ func checkAppDirectory() {
 	}
 }
 
+func checkDatabase() {
+	db, err := sql.Open("sqlite3", authDatabaseFile)
+	if err != nil {
+		return
+	}
+	defer db.Close()
+
+	var missingTable = fmt.Errorf("no such table: sg_profiles")
+	_, err = LoadProfiles()
+	if err != nil && err.Error() == missingTable.Error() {
+		fmt.Println("creating table")
+		err = createDatabase()
+	}
+	if err != nil {
+		panic("[!] socialgopher: opening profile database: " +
+			err.Error())
+	}
+}
+
+func createDatabase() (err error) {
+	db, err := sql.Open("sqlite3", authDatabaseFile)
+	if err != nil {
+		return
+	}
+	defer db.Close()
+	_, err = db.Exec(`create table sg_profiles
+                                (user unique not null primary key,
+                                 secret not null)`)
+	return
+}
+
 func init() {
 	var err error
 	checkAppDirectory()
+	checkDatabase()
 	Profiles, err = LoadProfiles()
 	if err != nil {
 		fmt.Println("[!] couldn't load profiles:", err.Error())

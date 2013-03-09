@@ -16,7 +16,7 @@ const (
 
 var (
 	homeDir          = os.ExpandEnv("${HOME}/." + AppUnixName)
-	authDatabaseFile = filepath.Join(homeDir, "credentials.db")
+	authDatabaseFile = filepath.Join(homeDir, "profiles.db")
 )
 
 // The desktop experience should mimic in functionality the web experience.

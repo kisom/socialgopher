@@ -59,8 +59,10 @@ func accountWindow() {
 
 	// login
 	button_login.Clicked(func() {
-		// validation holder
-		if user_entry.GetText() == "user" && pass_entry.GetText() == "pass" {
+		username := user_entry.GetText()
+		password := pass_entry.GetText()
+		profile, err := CreateProfile(username, password)
+		if err == nil && profile != nil {
 			println("[*] Login successful")
 			window_account.Destroy()
 		}
