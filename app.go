@@ -7,16 +7,16 @@ import (
 )
 
 const (
-	image_profile_file = "/home/wally/Code/go/src/socialgopher/img/user_image.png"
-	image_stream_file = "/home/wally/Code/go/src/socialgopher/img/home.png"
-	image_mentions_file = "/home/wally/Code/go/src/socialgopher/img/mentions.png"
-	image_interactions_file = "/home/wally/Code/go/src/socialgopher/img/interactions.png"
-	image_stars_file = "/home/wally/Code/go/src/socialgopher/img/stars.png"
-	image_messages_file = "/home/wally/Code/go/src/socialgopher/img/messages.png"
-	image_settings_file = "/home/wally/Code/go/src/socialgopher/img/settings.png"
+	image_profile_file = "assets/images/profile_image.png"
+	image_stream_file = "assets/images/home.png"
+	image_mentions_file = "assets/images/mentions.png"
+	image_interactions_file = "assets/images/interactions.png"
+	image_stars_file = "assets/images/stars.png"
+	image_messages_file = "assets/images/messages.png"
+	image_settings_file = "assets/images/settings.png"
 )
 
-func main() {
+func mainWindow() {
 	gtk.Init(&os.Args)
 
 	// window settings
@@ -136,4 +136,8 @@ func main() {
 	window.ShowAll()
 
 	gtk.Main()
+}
+
+func main() {
+	mainWindow()
 }
